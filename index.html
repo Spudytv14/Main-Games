@@ -3,448 +3,557 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spudy Intelligence Technology Games</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <title>Spudy Intelligence Unit</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
-        }
-
         body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #0a0a1a;
+            color: #ffffff;
             overflow-x: hidden;
-            background: linear-gradient(rgba(9, 23, 47, 0.95), rgba(9, 23, 47, 0.98));
+            position: relative;
         }
-
-        /* Header Section */
-        .header {
-            height: 100vh;
-            width: 100%;
-            background: linear-gradient(rgba(9, 23, 47, 0.9), rgba(9, 23, 47, 0.7)),
-                        url('https://images.unsplash.com/photo-1491841550275-adc9c2cdda06?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80') center/cover;
+        .hero {
+            background: linear-gradient(135deg, #1e3a8a, #22d3ee);
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+            position: relative;
+            z-index: 1;
+        }
+        .parallax {
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+        }
+        .section {
+            opacity: 0;
+            transform: translateY(50px) scale(0.95);
+            transition: all 0.8s ease-out;
+            background: linear-gradient(135deg, rgba(30, 58, 138, 0.2), rgba(34, 211, 238, 0.2));
+            border: 1px solid #ffd700;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+            padding: 3rem 1rem;
+        }
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+        .glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            border: 1px solid #ffd700;
+            box-shadow: 0 8px 32px rgba(255, 215, 0, 0.3);
+        }
+        .card, .team-card, .plan-card {
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            border: 1px solid #ffd700;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+        }
+        .card:hover, .team-card:hover, .plan-card:hover {
+            transform: translateY(-15px) rotate(3deg);
+            box-shadow: 0 15px 30px rgba(255, 215, 0, 0.7);
+        }
+        .btn {
             position: relative;
             overflow: hidden;
+            background: linear-gradient(45deg, #ffd700, #f59e0b);
+            border: 2px solid #ffd700;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-
-        .content {
-            position: absolute;
-            top: 50%;
-            left: 10%;
-            transform: translateY(-50%);
-            color: white;
-            max-width: 800px;
-            z-index: 1;
-        }
-
-        .content h1 {
-            font-size: 4em;
-            margin-bottom: 20px;
-            animation: slideRight 1s ease;
-        }
-
-        .content p {
-            font-size: 1.2em;
-            line-height: 1.6;
-            color: #d3e3ff;
-            animation: slideUp 1s ease;
-        }
-
-        .action-buttons {
-            position: fixed;
-            right: 30px;
-            top: 50%;
-            transform: translateY(-50%);
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            z-index: 100;
-        }
-
-        .btn {
-            padding: 15px 30px;
-            background: rgba(42, 117, 255, 0.9);
-            color: white;
-            border: none;
-            border-radius: 30px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(5px);
-            box-shadow: 0 5px 15px rgba(42, 117, 255, 0.3);
-            font-size: 1em;
-            font-weight: 600;
-            text-decoration: none;
-        }
-
         .btn:hover {
-            background: #2a75ff;
-            transform: translateX(-10px);
-            box-shadow: 0 8px 25px rgba(42, 117, 255, 0.5);
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.7);
         }
-
-        /* Games Section */
-        .games-section {
-            padding: 100px 10%;
-            background: linear-gradient(rgba(9, 23, 47, 0.95), rgba(9, 23, 47, 0.98));
-            color: white;
-            position: relative;
-            z-index: 2;
-        }
-
-        .games-section h2 {
-            font-size: 2.5em;
-            margin-bottom: 20px;
-            color: #2a75ff;
-            text-align: center;
-            animation: slideRight 1s ease;
-        }
-
-        .games-section p.intro {
-            font-size: 1.2em;
-            line-height: 1.6;
-            color: #d3e3ff;
-            text-align: center;
-            margin-bottom: 40px;
-            animation: slideUp 1s ease;
-        }
-
-        .game-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .game-card {
-            background: rgba(42, 117, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 40px;
-            border: 1px solid rgba(42, 117, 255, 0.3);
-            transform: translateY(50px);
-            opacity: 0;
-            animation: slideUp 1s ease forwards;
-            transition: all 0.3s ease;
-        }
-
-        .game-card:nth-child(1) { animation-delay: 0.2s; }
-        .game-card:nth-child(2) { animation-delay: 0.4s; }
-        .game-card:nth-child(3) { animation-delay: 0.6s; }
-        .game-card:nth-child(4) { animation-delay: 0.8s; }
-        .game-card:nth-child(5) { animation-delay: 1.0s; }
-
-        .game-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 8px 25px rgba(42, 117, 255, 0.5);
-        }
-
-        .game-card h3 {
-            font-size: 2em;
-            margin-bottom: 15px;
-            color: #2a75ff;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .game-card p {
-            font-size: 1.1em;
-            line-height: 1.8;
-            color: #d3e3ff;
-            margin-bottom: 20px;
-        }
-
-        .game-card img {
-            width: 200px;
-            height: auto;
-            margin: 20px auto;
-            display: block;
-            border-radius: 10px;
-            transition: transform 0.3s ease;
-        }
-
-        .game-card img:hover {
-            transform: scale(1.05);
-        }
-
-        /* Footer Section */
-        .footer {
-            padding: 60px 10% 40px;
-            background: linear-gradient(rgba(9, 23, 47, 0.95), rgba(9, 23, 47, 0.98));
-            color: white;
-            position: relative;
-            z-index: 2;
-        }
-
-        .footer-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .footer h3 {
-            font-size: 2em;
-            margin-bottom: 15px;
-            color: #2a75ff;
-        }
-
-        .footer h4 {
-            font-size: 1.5em;
-            margin-bottom: 15px;
-            color: #2a75ff;
-        }
-
-        .footer p {
-            font-size: 1em;
-            line-height: 1.8;
-            color: #d3e3ff;
-        }
-
-        .footer .quick-links, .footer .contact-links {
-            background: rgba(42, 117, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 20px;
-            border: 1px solid rgba(42, 117, 255, 0.3);
-            box-shadow: 0 5px 15px rgba(42, 117, 255, 0.2);
-        }
-
-        .footer .quick-links ul, .footer .contact-links ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .footer .quick-links ul li, .footer .contact-links ul li {
-            margin-bottom: 12px;
-            animation: slideUp 1s ease forwards;
-            opacity: 0;
-        }
-
-        .footer .quick-links ul li:nth-child(1) { animation-delay: 0.2s; }
-        .footer .quick-links ul li:nth-child(2) { animation-delay: 0.4s; }
-        .footer .quick-links ul li:nth-child(3) { animation-delay: 0.6s; }
-        .footer .quick-links ul li:nth-child(4) { animation-delay: 0.8s; }
-        .footer .contact-links ul li:nth-child(1) { animation-delay: 0.2s; }
-        .footer .contact-links ul li:nth-child(2) { animation-delay: 0.4s; }
-        .footer .contact-links ul li:nth-child(3) { animation-delay: 0.6s; }
-        .footer .contact-links ul li:nth-child(4) { animation-delay: 0.8s; }
-        .footer .contact-links ul li:nth-child(5) { animation-delay: 1.0s; }
-        .footer .contact-links ul li:nth-child(6) { animation-delay: 1.2s; }
-
-        .footer .quick-links ul li a, .footer .contact-links ul li a {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: #d3e3ff;
-            font-size: 1.1em;
-            font-weight: 500;
-            text-decoration: none;
-            padding: 10px 15px;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .footer .quick-links ul li a:hover, .footer .contact-links ul li a:hover {
-            background: rgba(42, 117, 255, 0.2);
-            color: #2a75ff;
-            transform: scale(1.05);
-            box-shadow: 0 0 10px rgba(42, 117, 255, 0.3);
-        }
-
-        .footer .quick-links ul li a::after, .footer .contact-links ul li a::after {
+        .btn::after {
             content: '';
             position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300%;
+            height: 300%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translate(-50%, -50%) scale(0);
+            transition: transform 0.5s ease;
+        }
+        .btn:hover::after {
+            transform: translate(-50%, -50%) scale(1);
+        }
+        .custom-cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ffd700;
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            transition: all 0.2s ease;
+            z-index: 1000;
+        }
+        .custom-cursor.hovered {
+            transform: translate(-50%, -50%) scale(1.5);
+            background: rgba(255, 215, 0, 0.3);
+        }
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        nav a {
+            position: relative;
+            font-family: 'Orbitron', sans-serif;
+        }
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
             width: 0;
             height: 2px;
-            bottom: 0;
-            left: 15px;
-            background: linear-gradient(to right, #2a75ff, #4a95ff);
+            background: #ffd700;
             transition: width 0.3s ease;
         }
-
-        .footer .quick-links ul li a:hover::after, .footer .contact-links ul li a:hover::after {
-            width: calc(100% - 30px);
+        nav a:hover::after {
+            width: 100%;
         }
-
-        .footer .copyright {
-            margin-top: 40px;
-            text-align: center;
-            font-size: 0.9em;
-            color: #d3e3ff;
-            border-top: 1px solid rgba(42, 117, 255, 0.3);
-            padding-top: 20px;
+        h2, h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
         }
-
-        /* Animations */
-        @keyframes slideRight {
-            from { transform: translateX(-100px); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
+        p, li, a:not(.btn) {
+            font-size: 1.1rem;
         }
-
-        @keyframes slideUp {
-            from { transform: translateY(50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-
-        /* Floating Elements */
-        .floating-element {
-            position: absolute;
-            background: rgba(42, 117, 255, 0.1);
-            border-radius: 50%;
-            animation: float 20s infinite linear;
-            z-index: 1;
-        }
-
-        @keyframes float {
-            0% { transform: translate(0, 0) rotate(0deg); }
-            100% { transform: translate(500px, 500px) rotate(360deg); }
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .content h1 { font-size: 3em; }
-            .content p { font-size: 1em; }
-            .content { max-width: 90%; }
-            .action-buttons { right: 15px; }
-            .btn { padding: 12px 25px; }
-            .games-section h2 { font-size: 2em; }
-            .games-section p.intro { font-size: 1em; }
-            .game-card { padding: 20px; }
-            .game-card h3 { font-size: 1.5em; }
-            .game-card p { font-size: 1em; }
-            .game-card img { width: 150px; }
-            .footer h3 { font-size: 1.5em; }
-            .footer h4 { font-size: 1.3em; }
-            .footer .quick-links, .footer .contact-links { padding: 15px; }
-            .footer .quick-links ul li a, .footer .contact-links ul li a { font-size: 1em; padding: 8px 12px; }
+        .quote {
+            font-style: italic;
+            color: #ffffff;
+            font-size: 1.2rem;
         }
     </style>
 </head>
 <body>
-    <!-- Header Section -->
-    <header class="header" id="hero">
-        <div class="floating-element" style="width: 200px; height: 200px; top: 20%; left: 5%;"></div>
-        <div class="floating-element" style="width: 150px; height: 150px; top: 80%; left: 85%;"></div>
-        <div class="content">
-            <h1>Spudy Intelligence Technology Games</h1>
-            <p>Brain & Educational Games Powered by Spudy AI and Spudy Library</p>
+    <!-- Custom Cursor -->
+    <div class="custom-cursor"></div>
+
+    <!-- Particles Background -->
+    <div id="particles-js"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full bg-gray-900 bg-opacity-80 backdrop-filter backdrop-blur-lg py-4 z-50">
+        <div class="container mx-auto px-4 flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-yellow-400 font-orbitron">Spudy Intelligence Unit</h1>
+            <div class="space-x-6">
+                <a href="#vision" class="text-white hover:text-yellow-400">Vision</a>
+                <a href="#mission" class="text-white hover:text-yellow-400">Mission</a>
+                <a href="#problem" class="text-white hover:text-yellow-400">Problem</a>
+                <a href="#services" class="text-white hover:text-yellow-400">Services</a>
+                <a href="#tools" class="text-white hover:text-yellow-400">AI Tools</a>
+                <a href="#plans" class="text-white hover:text-yellow-400">Plans</a>
+                <a href="#data" class="text-white hover:text-yellow-400">Data Processing</a>
+                <a href="#model" class="text-white hover:text-yellow-400">Model Development</a>
+                <a href="#team" class="text-white hover:text-yellow-400">Team</a>
+                <a href="#contact" class="text-white hover:text-yellow-400">Contact</a>
+            </div>
         </div>
-        <div class="action-buttons">
-            <button class="btn" onclick="scrollToContact()">
-                <i class="fas fa-phone-alt"></i> Contact Us
-            </button>
-        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero py-32 text-center parallax" style="background-image: url('https://source.unsplash.com/random/1920x1080?technology')">
+        <h1 class="text-6xl font-bold mb-6 text-white font-orbitron animate-text">Spudy Intelligence Unit</h1>
+        <p class="text-2xl text-yellow-400">Pioneering AI and Creative Technologies</p>
     </header>
 
-    <!-- Games Section -->
-    <section class="games-section" id="games">
-        <h2>Brain & Educational Games</h2>
-        <p class="intro">Challenge your mind with our fun and educational games, enhanced by Spudy AI’s adaptive learning and Spudy Library’s rich content.</p>
-        <div class="game-grid">
-            <div class="game-card">
-                <h3><i class="fas fa-calculator"></i> Math Quiz Game</h3>
-                <p>Test your mental arithmetic with timed math problems. Spudy AI adjusts difficulty to keep you challenged!</p>
-                <img src="https://via.placeholder.com/200x150?text=Math+Quiz" alt="Math Quiz Game Mockup">
-                <a href="#" class="btn"><i class="fas fa-play"></i> Play Now</a>
-            </div>
-            <div class="game-card">
-                <h3><i class="fas fa-spell-check"></i> Spelling Bee Game</h3>
-                <p>Improve your vocabulary by spelling words correctly under time pressure, powered by Spudy Library’s word lists.</p>
-                <img src="https://via.placeholder.com/200x150?text=Spelling+Bee" alt="Spelling Bee Game Mockup">
-                <a href="#" class="btn"><i class="fas fa-play"></i> Play Now</a>
-            </div>
-            <div class="game-card">
-                <h3><i class="fas fa-keyboard"></i> Typing Speed Challenge</h3>
-                <p>Boost your typing skills by racing against the clock. Spudy AI tracks your progress for personalized feedback.</p>
-                <img src="https://via.placeholder.com/200x150?text=Typing+Speed" alt="Typing Speed Challenge Mockup">
-                <a href="#" class="btn"><i class="fas fa-play"></i> Play Now</a>
-            </div>
-            <div class="game-card">
-                <h3><i class="fas fa-flag"></i> Flag Quiz / Country Game</h3>
-                <p>Learn geography by matching flags to countries, with Spudy Library’s curated country data.</p>
-                <img src="https://via.placeholder.com/200x150?text=Flag+Quiz" alt="Flag Quiz Game Mockup">
-                <a href="#" class="btn"><i class="fas fa-play"></i> Play Now</a>
-            </div>
-            <div class="game-card">
-                <h3><i class="fas fa-palette"></i> Color Mixing / RGB Challenge</h3>
-                <p>Master color theory by mixing RGB values to match target colors, enhanced by Spudy AI’s visual feedback.</p>
-                <img src="https://via.placeholder.com/200x150?text=Color+Mixing" alt="Color Mixing Game Mockup">
-                <a href="#" class="btn"><i class="fas fa-play"></i> Play Now</a>
+    <!-- Vision Section -->
+    <section id="vision" class="section py-20 px-4 md:px-16 glass">
+        <div class="container mx-auto">
+            <h2 class="text-5xl font-bold mb-10 text-center font-orbitron animate-text">Our Vision</h2>
+            <p class="text-lg max-w-3xl mx-auto animate-text-delay">
+                To be a pioneering force in artificial intelligence and creative technologies, empowering individuals and industries with intuitive and groundbreaking solutions that redefine the boundaries of possibility in AI, music, image generation, voice technology, and beyond. Driven by unwavering passion and a commitment to innovation, we aspire to shape a future where technology seamlessly amplifies human potential and unlocks new realms of creativity and understanding.
+            </p>
+        </div>
+    </section>
+
+    <!-- Mission Section -->
+    <section id="mission" class="section py-20 px-4 md:px-16 bg-gray-800 bg-opacity-50 glass">
+        <div class="container mx-auto">
+            <h2 class="text-5xl font-bold mb-10 text-center font-orbitron animate-text">Our Mission</h2>
+            <p class="text-lg max-w-3xl mx-auto animate-text-delay">
+                To passionately develop and deliver cutting-edge, user-centric technologies in artificial intelligence, music creation, image generation, voice solutions, and related fields. We are dedicated to solving complex technical challenges with innovative and impactful solutions, fostering creativity, enhancing communication, and driving progress for our users and partners. We strive to cultivate a culture of continuous learning, collaboration, and ethical development, ensuring our technologies contribute positively to the world.
+            </p>
+        </div>
+    </section>
+
+    <!-- Problem Statement Section -->
+    <section id="problem" class="section py-20 px-4 md:px-16 glass">
+        <div class="container mx-auto">
+            <h2 class="text-5xl font-bold mb-10 text-center font-orbitron animate-text">The Challenge We Address</h2>
+            <p class="text-lg max-w-3xl mx-auto animate-text-delay">
+                Despite rapid advancements in artificial intelligence, digital creativity tools often remain fragmented, complex, and inaccessible to many. Existing solutions in AI, music creation, image generation, and voice technology frequently present steep learning curves, lack seamless integration, or fail to fully empower users to realize their creative and practical potential. There is a need for intuitive, integrated, and powerful tools that bridge these gaps and unlock the potential of AI and creative technologies for a broader audience.
+            </p>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="section py-20 px-4 md:px-16 bg-gray-800 bg-opacity-50 glass">
+        <div class="container mx-auto">
+            <h2 class="text-5xl font-bold mb-10 text-center font-orbitron animate-text">Our Cutting-Edge Services</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="card bg-gray-900 bg-opacity-70 glass p-8 rounded-lg text-center animate-card">
+                    <h3 class="text-2xl font-semibold mb-2 font-orbitron">Spudy AI</h3>
+                    <p class="mb-4">Access a suite of AI-powered tools for creativity, productivity, and innovation.</p>
+                    <a href="#" class="btn inline-block text-white py-3 px-6 rounded-lg">Explore Tools</a>
+                </div>
+                <div class="card bg-gray-900 bg-opacity-70 glass p-8 rounded-lg text-center animate-card">
+                    <h3 class="text-2xl font-semibold mb-2 font-orbitron">Spudy Library</h3>
+                    <p class="mb-4">Discover a vast digital library with our insightful books and Open Library access.</p>
+                    <a href="#" class="btn inline-block text-white py-3 px-6 rounded-lg">Open Library</a>
+                </div>
+                <div class="card bg-gray-900 bg-opacity-70 glass p-8 rounded-lg text-center animate-card">
+                    <h3 class="text-2xl font-semibold mb-2 font-orbitron">Spudy Games</h3>
+                    <p class="mb-4">Dive into exciting AI-powered games and interactive experiences.</p>
+                    <a href="#" class="btn inline-block text-white py-3 px-6 rounded-lg">Explore Games</a>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Footer Section -->
-    <footer class="footer">
-        <div class="floating-element" style="width: 100px; height: 100px; top: 20%; left: 5%;"></div>
-        <div class="footer-grid">
-            <div>
-                <h3>Spudy Intelligence Technology</h3>
-                <p>Empowering users with innovative AI-driven solutions through Spudy AI and a vibrant digital library experience via Spudy Library.</p>
-            </div>
-            <div class="quick-links">
-                <h4>Quick Links</h4>
-                <ul>
-                    <li><a href="index.html#hero"><i class="fas fa-home"></i> Home</a></li>
-                    <li><a href="index.html#spudy-courses"><i class="fas fa-book"></i> Library Courses</a></li>
-                    <li><a href="index.html#spudy-careers"><i class="fas fa-briefcase"></i> Careers</a></li>
-                    <li><a href="#contact"><i class="fas fa-phone"></i> Contact</a></li>
-                </ul>
-            </div>
-            <div id="contact" class="contact-links">
-                <h4>Contact Us</h4>
-                <ul>
-                    <li><a href="mailto:spudytv14@gmail.com"><i class="fas fa-envelope"></i> Email</a></li>
-                    <li><a href="https://wa.me/263716669706"><i class="fab fa-whatsapp"></i> WhatsApp</a></li>
-                    <li><a href="https://g.co/kgs/hC6zuio"><i class="fas fa-map"></i> Google Map</a></li>
-                    <li><a href="https://facebook.com/matipaishe_blessing"><i class="fab fa-facebook-f"></i> Facebook</a></li>
-                    <li><a href="https://x.com/matipaishe_blessing"><i class="fab fa-x-twitter"></i> X</a></li>
-                    <li><a href="https://instagram.com/matipaishe_blessing"><i class="fab fa-instagram"></i> Instagram</a></li>
-                </ul>
+    <!-- AI Tools Section -->
+    <section id="tools" class="section py-20 px-4 md:px-16 glass">
+        <div class="container mx-auto">
+            <h2 class="text-5xl font-bold mb-10 text-center font-orbitron animate-text">Spudy AI Tools</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="card bg-gray-900 bg-opacity-70 glass p-8 rounded-lg text-center animate-card">
+                    <h3 class="text-2xl font-semibold mb-2 font-orbitron">Spudy AI</h3>
+                    <p class="mb-4">General AI Assistant for various tasks.</p>
+                    <a href="#" class="btn inline-block text-white py-3 px-6 rounded-lg">Try Now</a>
+                </div>
+                <div class="card bg-gray-900 bg-opacity-70 glass p-8 rounded-lg text-center animate-card">
+                    <h3 class="text-2xl font-semibold mb-2 font-orbitron">Spudy Advanced Reasoning</h3>
+                    <p class="mb-4">Enhanced Logic & Problem Solving capabilities.</p>
+                    <a href="#" class="btn inline-block text-white py-3 px-6 rounded-lg">Try Now</a>
+                </div>
+                <div class="card bg-gray-900 bg-opacity-70 glass p-8 rounded-lg text-center animate-card">
+                    <h3 class="text-2xl font-semibold mb-2 font-orbitron">Spudy Music AI</h3>
+                    <p class="mb-4">Create Original Music with AI.</p>
+                    <a href="#" class="btn inline-block text-white py-3 px-6 rounded-lg">Try Now</a>
+                </div>
+                <div class="card bg-gray-900 bg-opacity-70 glass p-8 rounded-lg text-center animate-card">
+                    <h3 class="text-2xl font-semibold mb-2 font-orbitron">Spudy Video Generator</h3>
+                    <p class="mb-4">Generate Stunning Videos effortlessly.</p>
+                    <a href="#" class="btn inline-block text-white py-3 px-6 rounded-lg">Try Now</a>
+                </div>
+                <div class="card bg-gray-900 bg-opacity-70 glass p-8 rounded-lg text-center animate-card">
+                    <h3 class="text-2xl font-semibold mb-2 font-orbitron">Spudy Image Generator</h3>
+                    <p class="mb-4">Create High-Quality Images with AI.</p>
+                    <a href="#" class="btn inline-block text-white py-3 px-6 rounded-lg">Try Now</a>
+                </div>
+                <div class="card bg-gray-900 bg-opacity-70 glass p-8 rounded-lg text-center animate-card">
+                    <h3 class="text-2xl font-semibold mb-2 font-orbitron">Spudy Code Generator</h3>
+                    <p class="mb-4">Write Code Effortlessly with AI assistance.</p>
+                    <a href="#" class="btn inline-block text-white py-3 px-6 rounded-lg">Try Now</a>
+                </div>
+                <div class="card bg-gray-900 bg-opacity-70 glass p-8 rounded-lg text-center animate-card">
+                    <h3 class="text-2xl font-semibold mb-2 font-orbitron">Spudy App Builder</h3>
+                    <p class="mb-4">Build Custom Applications with ease.</p>
+                    <a href="#" class="btn inline-block text-white py-3 px-6 rounded-lg">Try Now</a>
+                </div>
+                <div class="card bg-gray-900 bg-opacity-70 glass p-8 rounded-lg text-center animate-card">
+                    <h3 class="text-2xl font-semibold mb-2 font-orbitron">Spudy Graphic Design</h3>
+                    <p class="mb-4">Design Professional Graphics using AI.</p>
+                    <a href="#" class="btn inline-block text-white py-3 px-6 rounded-lg">Try Now</a>
+                </div>
+                <div class="card bg-gray-900 bg-opacity-70 glass p-8 rounded-lg text-center animate-card">
+                    <h3 class="text-2xl font-semibold mb-2 font-orbitron">Spudy Presentation Maker</h3>
+                    <p class="mb-4">Create Engaging Slides with AI support.</p>
+                    <a href="#" class="btn inline-block text-white py-3 px-6 rounded-lg">Try Now</a>
+                </div>
+                <div class="card bg-gray-900 bg-opacity-70 glass p-8 rounded-lg text-center animate-card">
+                    <h3 class="text-2xl font-semibold mb-2 font-orbitron">Spudy Text-to-Speech</h3>
+                    <p class="mb-4">Convert Text to Natural Speech.</p>
+                    <a href="#" class="btn inline-block text-white py-3 px-6 rounded-lg">Try Now</a>
+                </div>
+                <div class="card bg-gray-900 bg-opacity-70 glass p-8 rounded-lg text-center animate-card">
+                    <h3 class="text-2xl font-semibold mb-2 font-orbitron">Spudy Voice Cloner</h3>
+                    <p class="mb-4">Replicate Voices Accurately with AI.</p>
+                    <a href="#" class="btn inline-block text-white py-3 px-6 rounded-lg">Try Now</a>
+                </div>
+                <div class="card bg-gray-900 bg-opacity-70 glass p-8 rounded-lg text-center animate-card">
+                    <h3 class="text-2xl font-semibold mb-2 font-orbitron">Spudy Resume Builder</h3>
+                    <p class="mb-4">Craft Professional Resumes with AI.</p>
+                    <a href="#" class="btn inline-block text-white py-3 px-6 rounded-lg">Try Now</a>
+                </div>
             </div>
         </div>
-        <div class="copyright">
-            © 2025 Spudy Intelligence Technology. All rights reserved.
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="plans" class="section py-20 px-4 md:px-16 bg-gray-800 bg-opacity-50 glass">
+        <div class="container mx-auto">
+            <h2 class="text-5xl font-bold mb-10 text-center font-orbitron animate-text">Choose Your Plan</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="plan-card bg-gray-900 bg-opacity-70 glass p-8 rounded-lg text-center animate-card">
+                    <h3 class="text-2xl font-semibold mb-2 font-orbitron">Starter Spark</h3>
+                    <p class="text-lg mb-4">FREE - Limited Access</p>
+                    <ul class="text-left mb-4">
+                        <li>Spudy AI</li>
+                        <li>Text-to-Speech</li>
+                        <li>Advanced Reasoning</li>
+                        <li>Code Generator</li>
+                        <li>App Builder</li>
+                        <li>10% off for yearly billing</li>
+                    </ul>
+                    <a href="#" class="btn inline-block text-white py-3 px-6 rounded-lg">Select</a>
+                </div>
+                <div class="plan-card bg-gray-900 bg-opacity-70 glass p-8 rounded-lg text-center animate-card">
+                    <h3 class="text-2xl font-semibold mb-2 font-orbitron">Creative Core</h3>
+                    <p class="text-lg mb-4">$3.14 / month</p>
+                    <ul class="text-left mb-4">
+                        <li>Spudy AI</li>
+                        <li>Video Generator</li>
+                        <li>Text-to-Speech</li>
+                        <li>Graphic Design</li>
+                        <li>App Builder</li>
+                        <li>10% off for yearly billing</li>
+                    </ul>
+                    <a href="#" class="btn inline-block text-white py-3 px-6 rounded-lg">Select</a>
+                </div>
+                <div class="plan-card bg-gray-900 bg-opacity-70 glass p-8 rounded-lg text-center animate-card">
+                    <h3 class="text-2xl font-semibold mb-2 font-orbitron">Pro Vision</h3>
+                    <p class="text-lg mb-4">$6.29 / month</p>
+                    <ul class="text-left mb-4">
+                        <li>Everything in Core</li>
+                        <li>Image Generator</li>
+                        <li>Music AI</li>
+                        <li>Resume Builder</li>
+                        <li>Voice Cloner</li>
+                        <li>10% off for yearly billing</li>
+                    </ul>
+                    <a href="#" class="btn inline-block text-white py-3 px-6 rounded-lg">Select</a>
+                </div>
+                <div class="plan-card bg-gray-900 bg-opacity-70 glass p-8 rounded-lg text-center animate-card">
+                    <h3 class="text-2xl font-semibold mb-2 font-orbitron">Ultimate Brain</h3>
+                    <p class="text-lg mb-4">$12.59 / month</p>
+                    <ul class="text-left mb-4">
+                        <li>All Pro Vision Features</li>
+                        <li>Code Generator</li>
+                        <li>Presentation Maker</li>
+                        <li>Voice Cloner</li>
+                        <li>App Builder</li>
+                        <li>10% off for yearly billing</li>
+                    </ul>
+                    <a href="#" class="btn inline-block text-white py-3 px-6 rounded-lg">Select</a>
+                </div>
+                <div class="plan-card bg-gray-900 bg-opacity-70 glass p-8 rounded-lg text-center animate-card">
+                    <h3 class="text-2xl font-semibold mb-2 font-orbitron">Infinity Pro+</h3>
+                    <p class="text-lg mb-4">$18.89 / month</p>
+                    <ul class="text-left mb-4">
+                        <li>Everything in Ultimate Brain</li>
+                        <li>App Builder</li>
+                        <li>Unlimited Access</li>
+                        <li>Priority Support</li>
+                        <li>Beta Features Access</li>
+                        <li>10% off for yearly billing</li>
+                    </ul>
+                    <a href="#" class="btn inline-block text-white py-3 px-6 rounded-lg">Select</a>
+                </div>
+                <div class="plan-card bg-gray-900 bg-opacity-70 glass p-8 rounded-lg text-center animate-card">
+                    <h3 class="text-2xl font-semibold mb-2 font-orbitron">Enterprise Masterplan</h3>
+                    <p class="text-lg mb-4">Custom Pricing</p>
+                    <ul class="text-left mb-4">
+                        <li>Full Suite Access</li>
+                        <li>Dedicated Account Manager</li>
+                        <li>Custom Integrations</li>
+                        <li>API Access</li>
+                        <li>Staff Training & SLA</li>
+                        <li>Request a quote for annual billing</li>
+                    </ul>
+                    <a href="#contact" class="btn inline-block text-white py-3 px-6 rounded-lg">Contact Us</a>
+                </div>
+            </div>
         </div>
+    </section>
+
+    <!-- Data Processing Section -->
+    <section id="data" class="section py-20 px-4 md:px-16 glass">
+        <div class="container mx-auto">
+            <h2 class="text-5xl font-bold mb-10 text-center font-orbitron animate-text">Data Processing</h2>
+            <p class="text-lg max-w-3xl mx-auto animate-text-delay">
+                We collect, clean, and annotate datasets from multiple verified sources to ensure high-quality AI training data. Our data pipelines are designed for real-time processing, privacy compliance, and optimized formatting for model readiness.
+            </p>
+            <p class="quote text-lg max-w-3xl mx-auto mt-4 animate-text-delay">"Only the cleanest data trains the smartest AI."</p>
+        </div>
+    </section>
+
+    <!-- Model Development Section -->
+    <section id="model" class="section py-20 px-4 md:px-16 bg-gray-800 bg-opacity-50 glass">
+        <div class="container mx-auto">
+            <h2 class="text-5xl font-bold mb-10 text-center font-orbitron animate-text">Model Development</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="card bg-gray-900 bg-opacity-70 glass p-8 rounded-lg text-center animate-card">
+                    <h3 class="text-2xl font-semibold mb-2 font-orbitron">Planning & Architecture</h3>
+                    <p class="mb-4">We design robust model architectures tailored to the tasks — from GPT-like transformers to custom generative pipelines.</p>
+                </div>
+                <div class="card bg-gray-900 bg-opacity-70 glass p-8 rounded-lg text-center animate-card">
+                    <h3 class="text-2xl font-semibold mb-2 font-orbitron">Training & Tuning</h3>
+                    <p class="mb-4">We fine-tune models with real-world datasets and evaluate across hundreds of benchmarks to ensure performance.</p>
+                </div>
+                <div class="card bg-gray-900 bg-opacity-70 glass p-8 rounded-lg text-center animate-card">
+                    <h3 class="text-2xl font-semibold mb-2 font-orbitron">Deployment & Monitoring</h3>
+                    <p class="mb-4">All models are containerized, scalable, and continuously monitored post-deployment for real-time updates.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section id="team" class="section py-20 px-4 md:px-16 bg-gray-800 bg-opacity-50 glass">
+        <div class="container mx-auto">
+            <h2 class="text-5xl font-bold mb-10 text-center font-orbitron animate-text">Meet the Team</h2>
+            <p class="text-lg max-w-3xl mx-auto mb-8 animate-text-delay">Our talented team drives innovation at Spudy Intelligence Technology.</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="team-card bg-gray-900 bg-opacity-70 glass p-8 rounded-lg text-center animate-team">
+                    <h3 class="text-2xl font-semibold mb-2 font-orbitron">Matipaishe Blessing (Spudy)</h3>
+                    <p class="text-lg mb-4">Founder & Lead Developer</p>
+                    <p>Visionary behind Spudy Intelligence Unit. Leads innovation, coding, design, and future development.</p>
+                </div>
+                <div class="team-card bg-gray-900 bg-opacity-70 glass p-8 rounded-lg text-center animate-team">
+                    <h3 class="text-2xl font-semibold mb-2 font-orbitron">M. Whande</h3>
+                    <p class="text-lg mb-4">Final Inspector</p>
+                    <p>Ensures perfection in every line of code, UI layout, and system functionality before release.</p>
+                </div>
+                <div class="team-card bg-gray-900 bg-opacity-70 glass p-8 rounded-lg text-center animate-team">
+                    <h3 class="text-2xl font-semibold mb-2 font-orbitron">Myta Zedy</h3>
+                    <p class="text-lg mb-4">Creative Support & Idea Source</p>
+                    <p>Brings heart, encouragement, and inspirational creativity that shaped SU's growth.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section py-20 px-4 md:px-16 glass">
+        <div class="container mx-auto text-center">
+            <h2 class="text-5xl font-bold mb-10 font-orbitron animate-text">Contact Us</h2>
+            <p class="text-lg mb-4 animate-text-delay">Phone: +123-456-7890</p>
+            <p class="text-lg mb-4 animate-text-delay">Email: hello@reallyareatsite.com</p>
+            <div class="max-w-md mx-auto mb-8 animate-text-delay">
+                <div class="flex">
+                    <input type="email" placeholder="Enter your email" class="flex-grow p-3 rounded-l-lg bg-gray-900 bg-opacity-70 border border-yellow-400 text-white">
+                    <button class="btn text-white py-3 px-6 rounded-r-lg">Subscribe</button>
+                </div>
+            </div>
+            <p class="text-lg mb-4 animate-text-delay">We Accept the Following Payment Methods:</p>
+            <div class="flex justify-center space-x-4 mb-4 animate-text-delay">
+                <img src="https://via.placeholder.com/50?text=Visa" alt="Visa" class="h-10">
+                <img src="https://via.placeholder.com/50?text=Mastercard" alt="Mastercard" class="h-10">
+                <img src="https://via.placeholder.com/50?text=Ecocash" alt="Ecocash" class="h-10">
+                <img src="https://via.placeholder.com/50?text=OneMoney" alt="OneMoney" class="h-10">
+            </div>
+            <div class="flex justify-center space-x-4 mb-4 animate-text-delay">
+                <a href="https://facebook.com" target="_blank" class="text-white hover:text-yellow-400">Facebook</a>
+                <a href="#" class="text-white hover:text-yellow-400">Twitter</a>
+                <a href="#" class="text-white hover:text-yellow-400">LinkedIn</a>
+            </div>
+            <div class="text-lg animate-text-delay">
+                <a href="#" class="text-white hover:text-yellow-400 mr-4">Terms of Service</a>
+                <a href="#" class="text-white hover:text-yellow-400 mr-4">Privacy Centre</a>
+                <a href="#" class="text-white hover:text-yellow-400">Have feedback? Let us know</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-8 text-center bg-gray-900 bg-opacity-80 glass">
+        <p>© 2025 Spudy Intelligence Technology. All Rights Reserved.</p>
     </footer>
 
     <script>
-        // Smooth Scroll to Contact
-        function scrollToContact() {
-            document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
-        }
+        // Initialize Particles.js with gold and futuristic colors
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 100, density: { enable: true, value_area: 800 } },
+                color: { value: ['#ffd700', '#22d3ee', '#a855f7'] },
+                shape: { type: 'circle' },
+                opacity: { value: 0.5, random: true },
+                size: { value: 3, random: true },
+                line_linked: { enable: true, distance: 150, color: '#ffd700', opacity: 0.4, width: 1 },
+                move: { enable: true, speed: 3, direction: 'none', random: true }
+            },
+            interactivity: {
+                detect_on: 'canvas',
+                events: { onhover: { enable: true, mode: 'repulse' }, onclick: { enable: true, mode: 'push' } },
+                modes: { repulse: { distance: 100 }, push: { particles_nb: 4 } }
+            },
+            retina_detect: true
+        });
 
-        // Floating Elements for Header
-        for (let i = 0; i < 5; i++) {
-            const element = document.createElement('div');
-            element.className = 'floating-element';
-            element.style.width = Math.random() * 100 + 50 + 'px';
-            element.style.height = element.style.width;
-            element.style.top = Math.random() * 100 + '%';
-            element.style.left = Math.random() * 100 + '%';
-            element.style.animationDuration = Math.random() * 20 + 10 + 's';
-            document.querySelector('.header').appendChild(element);
-        }
+        // GSAP Animations
+        gsap.registerPlugin(ScrollTrigger);
 
-        // Floating Elements for Games Section
-        for (let i = 0; i < 3; i++) {
-            const element = document.createElement('div');
-            element.className = 'floating-element';
-            element.style.width = Math.random() * 80 + 50 + 'px';
-            element.style.height = element.style.width;
-            element.style.top = Math.random() * 100 + '%';
-            element.style.left = Math.random() * 100 + '%';
-            element.style.animationDuration = Math.random() * 15 + 10 + 's';
-            document.querySelector('.games-section').appendChild(element);
-        }
+        // Text animations with pulse effect
+        gsap.utils.toArray('.animate-text').forEach(el => {
+            gsap.from(el, {
+                opacity: 0,
+                y: 50,
+                scale: 0.9,
+                duration: 1.2,
+                ease: 'power3.out',
+                scrollTrigger: {
+                    trigger: el,
+                    start: 'top 80%',
+                    toggleActions: 'play none none none'
+                }
+            });
+        });
+
+        gsap.utils.toArray('.animate-text-delay').forEach(el => {
+            gsap.from(el, {
+                opacity: 0,
+                y: 30,
+                scale: 0.95,
+                duration: 1.2,
+                delay: 0.4,
+                ease: 'power3.out',
+                scrollTrigger: {
+                    trigger: el.parentElement,
+                    start: 'top 80%',
+                    toggleActions: 'play none none none'
+                }
+            });
+        });
+
+        // Card animations with 3D effect
+        gsap.utils.toArray('.animate-card, .animate-team').forEach((el, i) => {
+            gsap.from(el, {
+                opacity: 0,
+                scale: 0.8,
+                rotationX: i % 2 === 0 ? -10 : 10,
+                duration: 1,
+                delay: i * 0.3,
+                ease: 'back.out(1.7)',
+                scrollTrigger: {
+                    trigger: el,
+                    start: 'top 80%',
+                    toggleActions: 'play none none none'
+                }
+            });
+        });
+
+        // Custom cursor
+        const cursor = document.querySelector('.custom-cursor');
+        document.addEventListener('mousemove', e => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        document.querySelectorAll('a, .btn, .card, .team-card, .plan-card').forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
+        });
     </script>
 </body>
 </html>
